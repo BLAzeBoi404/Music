@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
+import Player from './Player';
+import '../index.css';
 
 function Home() {
   const [songs, setSongs] = useState([]);
@@ -18,22 +18,25 @@ function Home() {
   };
 
   return (
-    <div>
-      <h1>Music Library</h1>
-      <ul>
-        {songs.map(song => (
-          <li key={song._id} onClick={() => playSong(song)}>
-            {song.title} by {song.artist}
-          </li>
-        ))}
-      </ul>
-      {currentSong && (
-        <AudioPlayer
-          autoPlay
-          src={`http://localhost:5000/uploads/${currentSong.filename}`}
-          onPlay={e => console.log("onPlay")}
-        />
-      )}
+    <div className="home">
+      <aside className="sidebar">
+        <h2>Music</h2>
+      </aside>
+      <main className="library">
+        <h1>Music Library</h1>
+        <ul className="song-list">
+          {songs.map(song => (
+            <li key={song._id} className="song-item" onClick={() => playSong(song)}>
+              <div className="song-thumb" />
+              <div className="song-meta">
+                <div className="song-title">{song.title}</div>
+                <div className="song-artist">{song.artist}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </main>
+      <Player song={currentSong} />
     </div>
   );
 }
